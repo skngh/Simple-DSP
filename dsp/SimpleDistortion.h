@@ -1,6 +1,6 @@
 #pragma once
 
-namespace sknight
+namespace sknight::dsp
 {
 class SimpleDistortion final
 {
@@ -11,8 +11,8 @@ class SimpleDistortion final
         SoftClip
     };
 
-    SimpleDistortion() {};
-    ~SimpleDistortion() {};
+    SimpleDistortion() {}
+    ~SimpleDistortion() {}
 
     void Init()
     {
@@ -20,7 +20,7 @@ class SimpleDistortion final
         gain_          = 1.0f;
     }
 
-    [[nodiscard]] float Process(float in) noexcept
+    [[nodiscard]] float Process(const float in) noexcept
     {
         return clipping_type_ == ClippingType::HardClip ? HardClip(in)
                                                         : SoftClip(in);
@@ -28,7 +28,7 @@ class SimpleDistortion final
 
     void SetType(ClippingType type) { clipping_type_ = type; }
 
-    void SetGain(float val) { gain_ = val; }
+    void SetGain(const float val) { gain_ = val; }
 
   private:
     float HardClip(float in) noexcept
@@ -47,4 +47,4 @@ class SimpleDistortion final
     ClippingType clipping_type_ = ClippingType::HardClip;
     float        gain_          = 1.0f;
 };
-} // namespace sknight
+} // namespace sknight::dsp

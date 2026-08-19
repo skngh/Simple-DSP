@@ -6,14 +6,14 @@
 #include "DelayingAllPass.h"
 #include "TappedDelayLine.h"
 
-namespace sknight
+namespace sknight::dsp
 {
 
 class MoorerReverb final
 {
   public:
-    MoorerReverb() {};
-    ~MoorerReverb() {};
+    MoorerReverb() {}
+    ~MoorerReverb() {}
 
     void Init(float sample_rate)
     {
@@ -71,8 +71,8 @@ class MoorerReverb final
         combs_scale_ = 1.0f / std::sqrt(combs_power);
     }
 
-    void SetERGain(const float gain) { er_gain_ = gain; };
-    void SetCombsGain(const float gain) { combs_gain_ = gain; };
+    void SetERGain(const float gain) { er_gain_ = gain; }
+    void SetCombsGain(const float gain) { combs_gain_ = gain; }
 
     void SetDamping(const float damping)
     {
@@ -139,9 +139,9 @@ class MoorerReverb final
         return v;
     }
 
-    sknight::DelayingAllPass<3400>        apf_;
-    std::array<sknight::LPFComb<3000>, 6> combs_ = {};
-    sknight::TappedDelayLine<4000, 18>    er_;
+    DelayingAllPass<3400>        apf_;
+    std::array<LPFComb<3000>, 6> combs_ = {};
+    TappedDelayLine<4000, 18>    er_;
 
     float er_gain_     = 1.0f;
     float combs_gain_  = 1.0f;
@@ -149,4 +149,4 @@ class MoorerReverb final
     float combs_scale_ = 1.0f;
     float sample_rate_ = 48000.0f;
 };
-} // namespace sknight
+} // namespace sknight::dsp

@@ -1,14 +1,15 @@
 #pragma once
 
+#include <algorithm>
 #include <cmath>
 
-namespace sknight
+namespace sknight::dsp
 {
 class BitCrusher final
 {
   public:
-    BitCrusher() {};
-    ~BitCrusher() {};
+    BitCrusher() {}
+    ~BitCrusher() {}
 
     void Init(float sample_rate)
     {
@@ -43,7 +44,7 @@ class BitCrusher final
 
     void SetBitDepth(int depth)
     {
-        depth = std::max(depth, 1);
+        depth = std::clamp(depth, 1, 24);
         ql_   = 2.0f / (std::pow(2, depth) - 1);
     }
 
@@ -60,4 +61,4 @@ class BitCrusher final
     float phase_step_  = 1.0f;
     float phase_       = 0.0f;
 };
-} // namespace sknight
+} // namespace sknight::dsp

@@ -3,14 +3,14 @@
 #include "DelayLine.h"
 #include <array>
 
-namespace sknight
+namespace sknight::dsp
 {
 template <int MAX_SIZE, int NUM_TAPS>
-class TappedDelayLine
+class TappedDelayLine final
 {
   public:
-    TappedDelayLine() {};
-    ~TappedDelayLine() {};
+    TappedDelayLine() {}
+    ~TappedDelayLine() {}
 
     void Init()
     {
@@ -40,8 +40,8 @@ class TappedDelayLine
     }
 
   private:
-    sknight::DelayLine<MAX_SIZE> delay_line_;
-    std::array<float, NUM_TAPS>  delay_times_;
-    std::array<float, NUM_TAPS>  gain_amounts_;
+    DelayLine<MAX_SIZE>         delay_line_;
+    std::array<float, NUM_TAPS> delay_times_;
+    std::array<float, NUM_TAPS> gain_amounts_;
 };
-} // namespace sknight
+} // namespace sknight::dsp

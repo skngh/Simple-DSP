@@ -1,12 +1,14 @@
 #pragma once
 
-namespace sknight
+#include <algorithm>
+
+namespace sknight::dsp
 {
 class APF final
 {
   public:
-    APF() {};
-    ~APF() {};
+    APF() {}
+    ~APF() {}
 
     void Init()
     {
@@ -22,10 +24,11 @@ class APF final
         return (-gain_ * delay_input) + delayed;
     }
 
-    void SetGain(const float gain) { gain_ = gain; }
+    // gain must stay within (-1, 1) for stability
+    void SetGain(const float gain) { gain_ = std::clamp(gain, -0.999f, 0.999f); }
 
   private:
     float last_sample_ = 0.0f;
     float gain_        = 0.7f;
 };
-} // namespace sknight
+} // namespace sknight::dsp

@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-namespace sknight
+namespace sknight::dsp
 {
 template <int MAX_SIZE>
 class DelayLine final
@@ -21,20 +21,7 @@ class DelayLine final
         delay_time_  = 1.0f;
     }
 
-    [[nodiscard]] float Read() const noexcept
-    {
-        int   delay_time_int = static_cast<int>(delay_time_);
-        float frac           = delay_time_ - delay_time_int;
-        int   read_index_a   = write_index_ - delay_time_int;
-        if(read_index_a < 0)
-            read_index_a += MAX_SIZE;
-        int read_index_b = read_index_a - 1;
-        if(read_index_b < 0)
-            read_index_b += MAX_SIZE;
-
-        return buffer_[read_index_a] * (1.0f - frac)
-               + buffer_[read_index_b] * frac;
-    }
+    [[nodiscard]] float Read() const noexcept { return Read(delay_time_); }
 
     [[nodiscard]] float Read(const float offset) const noexcept
     {
@@ -72,13 +59,14 @@ class DelayLine final
         delay_time_ = delay;
     }
 
-
   private:
-    void CheckDelay(float delay) const noexcept
-    { assert(delay >= 0.0f && delay <= MAX_SIZE - 2.0f); }
+    void CheckDelay(const float delay) const noexcept
+    {
+        assert(delay >= 0.0f && delay <= MAX_SIZE - 2.0f);
+    }
 
     int   write_index_ = 0;
     float delay_time_  = 1.0f;
     float buffer_[MAX_SIZE];
 };
-} // namespace sknight
+} // namespace sknight::dsp

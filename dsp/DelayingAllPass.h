@@ -1,15 +1,16 @@
 #pragma once
 
+#include <algorithm>
 #include "DelayLine.h"
 
-namespace sknight
+namespace sknight::dsp
 {
 template <int MAX_SIZE>
 class DelayingAllPass final
 {
   public:
-    DelayingAllPass() {};
-    ~DelayingAllPass() {};
+    DelayingAllPass() {}
+    ~DelayingAllPass() {}
 
     void Init() { delay_line_.Init(); }
 
@@ -23,10 +24,11 @@ class DelayingAllPass final
 
     void SetDelay(const float delay) { delay_line_.SetDelay(delay); }
 
-    void SetGain(const float gain) { gain_ = gain; }
+    // gain must stay within (-1, 1) for stability
+    void SetGain(const float gain) { gain_ = std::clamp(gain, -0.999f, 0.999f); }
 
   private:
-    sknight::DelayLine<MAX_SIZE> delay_line_;
-    float                        gain_ = 0.7f;
+    DelayLine<MAX_SIZE> delay_line_;
+    float               gain_ = 0.7f;
 };
-} // namespace sknight
+} // namespace sknight::dsp

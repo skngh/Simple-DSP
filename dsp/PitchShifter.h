@@ -1,16 +1,16 @@
 #pragma once
 
 #include <cmath>
+#include "OnePole.h"
 
-namespace sknight
+namespace sknight::dsp
 {
-constexpr float PI = 3.1415927f;
 template <size_t MAX_SIZE = 16384>
 class PitchShifter final
 {
   public:
-    PitchShifter() {};
-    ~PitchShifter() {};
+    PitchShifter() {}
+    ~PitchShifter() {}
 
     void Init()
     {
@@ -51,8 +51,8 @@ class PitchShifter final
         float tri_a = phase_ > 0.5f ? (1.0f - phase_) : phase_;
         float tri_b = phase_b > 0.5f ? (1.0f - phase_b) : phase_b;
 
-        float gain_a = sinf(tri_a * sknight::PI);
-        float gain_b = sinf(tri_b * sknight::PI);
+        float gain_a = std::sin(tri_a * PI);
+        float gain_b = std::sin(tri_b * PI);
 
         float sample = sample_a * gain_a + sample_b * gain_b;
 
@@ -85,4 +85,4 @@ class PitchShifter final
     float delay_line_[MAX_SIZE];
     int   write_ptr_ = 0;
 };
-} // namespace sknight
+} // namespace sknight::dsp

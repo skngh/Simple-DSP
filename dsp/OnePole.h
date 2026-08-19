@@ -2,12 +2,12 @@
 
 #include <cmath>
 
-namespace sknight
+namespace sknight::dsp
 {
 
 inline constexpr float PI = 3.14159274f;
 
-class OnePole
+class OnePole final
 {
   public:
     enum class FilterType
@@ -16,8 +16,8 @@ class OnePole
         HighPass
     };
 
-    OnePole() {};
-    ~OnePole() {};
+    OnePole() {}
+    ~OnePole() {}
 
     void Init(float sample_rate)
     {
@@ -26,7 +26,7 @@ class OnePole
         last_sample_ = 0.0f;
     }
 
-    float Process(float in) noexcept
+    [[nodiscard]] float Process(const float in) noexcept
     {
         float lp = (1.0f - coeff_) * in + coeff_ * last_sample_;
 
@@ -35,16 +35,17 @@ class OnePole
         return type_ == FilterType::LowPass ? lp : in - lp;
     }
 
-    void SetCutoff(float frequency)
-    { coeff_ = std::exp(-2.0f * PI * frequency / sample_rate_); }
+    void SetCutoff(const float frequency)
+    {
+        coeff_ = std::exp(-2.0f * PI * frequency / sample_rate_);
+    }
 
     void SetType(FilterType type) { type_ = type; }
 
-
   private:
-    float      sample_rate_ = 48000;
+    float      sample_rate_ = 48000.0f;
     float      coeff_       = 0.0f;
     float      last_sample_ = 0.0f;
     FilterType type_        = FilterType::LowPass;
 };
-} // namespace sknight
+} // namespace sknight::dsp
