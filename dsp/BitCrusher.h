@@ -1,0 +1,63 @@
+#pragma once
+
+#include <cmath>
+
+namespace sknight
+{
+class BitCrusher final
+{
+  public:
+    BitCrusher() {};
+    ~BitCrusher() {};
+
+    void Init(float sample_rate)
+    {
+        ql_          = 0.0f;
+        sample_rate_ = sample_rate;
+        phase_       = 0.0f;
+        last_sample_ = 0.0f;
+    }
+
+    // hard clips at 1 & -1
+    [[nodiscard]] float Process(const float in) noexcept
+    {
+        // downsample (sample & hold)
+        float sig = in;
+        phase_ += phase_step_;
+
+        if(phase_ >= 1.0f)
+        {
+            last_sample_ = sig;
+            phase_ -= 1.0f;
+        }
+        sig = last_sample_;
+
+        // bit depth
+        float crushed = ql_ * (std::floor(sig / ql_ + 0.5f));
+        if(crushed > 1.0f)
+            crushed = 1.0f;
+        if(crushed < -1.0f)
+            crushed = -1.0f;
+        return crushed;
+    }
+
+    void SetBitDepth(int depth)
+    {
+        depth = std::max(depth, 1);
+        ql_   = 2.0f / (std::pow(2, depth) - 1);
+    }
+
+    void SetSamplingRate(float target_sr)
+    {
+        target_sr   = std::min(target_sr, sample_rate_);
+        phase_step_ = target_sr / sample_rate_;
+    }
+
+  private:
+    float ql_          = 0.0f;
+    float sample_rate_ = 48000.0f;
+    float last_sample_ = 0.0f;
+    float phase_step_  = 1.0f;
+    float phase_       = 0.0f;
+};
+} // namespace sknight
