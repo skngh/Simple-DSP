@@ -2,20 +2,23 @@
 
 #include <cmath>
 
-namespace sknight
-{
-namespace utilities
+namespace sknight::utilities
 {
 
-template <typename T, typename Fn>
-void ValueChanged(T value, T &last_value, Fn &&on_change, float threshold = 0.001f)
-{
-    if(fabsf(static_cast<float>(value - last_value)) > threshold)
+    // Utilities: misc helpers used across the dsp classes.
+
+    /**
+     * calls on_change and updates last_value if value has moved past threshold
+     * @param threshold minimum change required to trigger on_change
+     */
+    template <typename T, typename Fn>
+    void ValueChanged(T value, T &last_value, Fn &&on_change, float threshold = 0.001f)
     {
-        on_change(value);
-        last_value = value;
+        if (fabsf(static_cast<float>(value - last_value)) > threshold)
+        {
+            on_change(value);
+            last_value = value;
+        }
     }
-}
 
-} // namespace utilities
-} // namespace sknight
+} // namespace sknight::utilities

@@ -4,69 +4,88 @@
 
 namespace sknight::dsp
 {
-template <int MAX_SIZE>
-class DelayLine final
-{
-  public:
-    DelayLine() {}
-    ~DelayLine() {}
-
-    void Init()
+    // DelayLine<MAX_SIZE>: fixed-size circular delay buffer with linear-interpolated fractional reads.
+    //
+    //   SetDelay(delay)
+    template <int MAX_SIZE>
+    class DelayLine final
     {
-        for(int i = 0; i < MAX_SIZE; ++i)
+    public:
+        DelayLine() {}
+        ~DelayLine() {}
+
+        /** initialize delayline */
+        void Init()
         {
-            buffer_[i] = 0.0f;
+            delay_time_ = 1.0f;
+            Reset();
         }
-        write_index_ = 0;
-        delay_time_  = 1.0f;
-    }
 
-    [[nodiscard]] float Read() const noexcept { return Read(delay_time_); }
+        /** reset delayline */
+        void Reset()
+        {
+            for (int i = 0; i < MAX_SIZE; ++i)
+            {
+                buffer_[i] = 0.0f;
+            }
+            write_index_ = 0;
+        }
 
-    [[nodiscard]] float Read(const float offset) const noexcept
-    {
-        CheckDelay(offset);
-        int   delay_time_int = static_cast<int>(offset);
-        float frac           = offset - delay_time_int;
-        int   read_index_a   = write_index_ - delay_time_int;
-        if(read_index_a < 0)
-            read_index_a += MAX_SIZE;
-        int read_index_b = read_index_a - 1;
-        if(read_index_b < 0)
-            read_index_b += MAX_SIZE;
+        /** read at the current delay time */
+        [[nodiscard]] float Read() const noexcept { return Read(delay_time_); }
 
-        return buffer_[read_index_a] * (1.0f - frac)
-               + buffer_[read_index_b] * frac;
-    }
+        /**
+         * read at an explicit offset
+         * @param offset in samples
+         */
+        [[nodiscard]] float Read(const float offset) const noexcept
+        {
+            CheckDelay(offset);
+            int delay_time_int = static_cast<int>(offset);
+            float frac = offset - delay_time_int;
+            int read_index_a = write_index_ - delay_time_int;
+            if (read_index_a < 0)
+                read_index_a += MAX_SIZE;
+            int read_index_b = read_index_a - 1;
+            if (read_index_b < 0)
+                read_index_b += MAX_SIZE;
 
-    void Write(const float in) noexcept
-    {
-        buffer_[write_index_++] = in;
-        if(write_index_ >= MAX_SIZE)
-            write_index_ -= MAX_SIZE;
-    }
+            return buffer_[read_index_a] * (1.0f - frac) + buffer_[read_index_b] * frac;
+        }
 
-    [[nodiscard]] float Process(const float in) noexcept
-    {
-        Write(in);
-        return Read();
-    }
+        /** write one sample into the buffer */
+        void Write(const float in) noexcept
+        {
+            buffer_[write_index_++] = in;
+            if (write_index_ >= MAX_SIZE)
+                write_index_ -= MAX_SIZE;
+        }
 
-    // in samples
-    void SetDelay(const float delay)
-    {
-        CheckDelay(delay);
-        delay_time_ = delay;
-    }
+        /** process delayline */
+        [[nodiscard]] float Process(const float in) noexcept
+        {
+            Write(in);
+            return Read();
+        }
 
-  private:
-    void CheckDelay(const float delay) const noexcept
-    {
-        assert(delay >= 0.0f && delay <= MAX_SIZE - 2.0f);
-    }
+        /**
+         * set delay
+         * @param delay in samples
+         */
+        void SetDelay(const float delay)
+        {
+            CheckDelay(delay);
+            delay_time_ = delay;
+        }
 
-    int   write_index_ = 0;
-    float delay_time_  = 1.0f;
-    float buffer_[MAX_SIZE];
-};
+    private:
+        void CheckDelay(const float delay) const noexcept
+        {
+            assert(delay >= 0.0f && delay <= MAX_SIZE - 2.0f);
+        }
+
+        int write_index_ = 0;
+        float delay_time_ = 1.0f;
+        float buffer_[MAX_SIZE];
+    };
 } // namespace sknight::dsp

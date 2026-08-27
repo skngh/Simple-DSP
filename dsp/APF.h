@@ -4,31 +4,42 @@
 
 namespace sknight::dsp
 {
-class APF final
-{
+  // APF: single-sample first-order allpass filter (Schroeder allpass).
+  //
+  //   SetGain(gain)
+  class APF final
+  {
   public:
     APF() {}
     ~APF() {}
 
+    /** initialize apf */
     void Init()
     {
-        last_sample_ = 0.0f;
-        gain_        = 0.7f;
+      gain_ = 0.7f;
+      Reset();
     }
 
+    /** reset apf */
+    void Reset() { last_sample_ = 0.0f; }
+
+    /** process apf */
     [[nodiscard]] float Process(const float in) noexcept
     {
-        float delayed     = last_sample_;
-        float delay_input = in + gain_ * delayed; // w(n)
-        last_sample_      = delay_input;
-        return (-gain_ * delay_input) + delayed;
+      float delayed = last_sample_;
+      float delay_input = in + gain_ * delayed; // w(n)
+      last_sample_ = delay_input;
+      return (-gain_ * delay_input) + delayed;
     }
 
-    // gain must stay within (-1, 1) for stability
+    /** set gain
+     * @param gain default 0.7f. range -.1 - 1
+     */
+
     void SetGain(const float gain) { gain_ = std::clamp(gain, -0.999f, 0.999f); }
 
   private:
     float last_sample_ = 0.0f;
-    float gain_        = 0.7f;
-};
+    float gain_ = 0.7f;
+  };
 } // namespace sknight::dsp

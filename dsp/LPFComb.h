@@ -5,46 +5,67 @@
 
 namespace sknight::dsp
 {
-template <int MAX_SIZE>
-class LPFComb final
-{
-  public:
-    LPFComb() {}
-    ~LPFComb() {}
-
-    void Init() { delay_line_.Init(); }
-
-    [[nodiscard]] float Process(const float in) noexcept
+    // LPFComb<MAX_SIZE>: comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
+    //
+    //   SetDelay(delay)
+    //   SetFeedback(fb)
+    //   SetDamping(damping)
+    template <int MAX_SIZE>
+    class LPFComb final
     {
-        float out = delay_line_.Read();
-        float lpf = out + g2_coeff * last_sample_;
-        delay_line_.Write(in + fb_ * lpf);
+    public:
+        LPFComb() {}
+        ~LPFComb() {}
 
-        last_sample_ = lpf;
-        return out;
-    }
+        /** initialize lpfcomb */
+        void Init() { Reset(); }
 
-    void SetDelay(const float delay) { delay_line_.SetDelay(delay); }
+        /** reset lpfcomb */
+        void Reset()
+        {
+            delay_line_.Reset();
+            last_sample_ = 0.0f;
+        }
 
-    // feedback must stay within (-1, 1) for stability
-    void SetFeedback(const float fb)
-    {
-        fb_ = std::clamp(fb, -0.999f, 0.999f);
-        SetDamping(damping_);
-    }
+        /** process lpfcomb */
+        [[nodiscard]] float Process(const float in) noexcept
+        {
+            float out = delay_line_.Read();
+            float lpf = out + g2_coeff * last_sample_;
+            delay_line_.Write(in + fb_ * lpf);
 
-    // damping is 0 - .9999
-    void SetDamping(const float damping)
-    {
-        damping_ = std::clamp(damping, 0.0f, 0.999f);
-        g2_coeff = damping_ * (1.0f - fb_);
-    }
+            last_sample_ = lpf;
+            return out;
+        }
 
-  private:
-    float               fb_ = 0.0f;
-    DelayLine<MAX_SIZE> delay_line_;
-    float               last_sample_ = 0.0f;
-    float               damping_     = 0.0f;
-    float               g2_coeff     = 0.0f;
-};
+        /**
+         * set delay
+         * @param delay in samples
+         */
+        void SetDelay(const float delay) { delay_line_.SetDelay(delay); }
+
+        /** set feedback */
+        void SetFeedback(const float fb)
+        {
+            fb_ = std::clamp(fb, -0.999f, 0.999f);
+            SetDamping(damping_);
+        }
+
+        /**
+         * set damping
+         * @param damping 0-1
+         */
+        void SetDamping(const float damping)
+        {
+            damping_ = std::clamp(damping, 0.0f, 0.999f);
+            g2_coeff = damping_ * (1.0f - fb_);
+        }
+
+    private:
+        float fb_ = 0.0f;
+        DelayLine<MAX_SIZE> delay_line_;
+        float last_sample_ = 0.0f;
+        float damping_ = 0.0f;
+        float g2_coeff = 0.0f;
+    };
 } // namespace sknight::dsp
