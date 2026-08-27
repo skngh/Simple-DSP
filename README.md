@@ -8,8 +8,8 @@ Most of the filters and reverb's algorithm I adapted from Will Pirkle's _Designi
 
 ## Layout
 
-- `dsp/` — audio processing classes (`sknight::dsp` namespace)
-- `utilities/` — small helpers (`sknight::utilities` namespace)
+- [`dsp/`](dsp) — audio processing classes (`sknight::dsp` namespace)
+- [`utilities/`](utilities) — small helpers (`sknight::utilities` namespace)
 
 ## Usage pattern
 
@@ -31,21 +31,21 @@ filter.Reset();
 
 ### dsp/
 
-- **`DelayLine<MAX_SIZE>`** — fixed-size circular delay buffer with linear-interpolated fractional reads.
-- **`TappedDelayLine<MAX_SIZE, NUM_TAPS>`** — a `DelayLine` read at multiple tap points with independent gains, summed into one output (used in Moorers Reverb below).
-- **`APF`** — single-sample first-order allpass filter (Schroeder allpass).
-- **`DelayingAllPass<MAX_SIZE>`** — Schroeder allpass filter built around a `DelayLine`, for reverb diffusion.
-- **`Comb<MAX_SIZE>`** — basic feedback comb filter.
-- **`LPFComb<MAX_SIZE>`** — comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
-- **`MoorerReverb`** — James Moorer's early-reflections + parallel-comb/allpass reverb.
-- **`OnePole`** — one-pole low/high-pass filter.
-- **`BitCrusher`** — sample-rate reduction and bit-depth quantization.
-- **`SimpleDistortion`** — simple hard-clip and cubic soft-clip waveshaping distortion.
-- **`PitchShifter<MAX_SIZE>`** — delay-line based pitch shifter using two crossfaded, triangular-windowed read taps.
+- **[`DelayLine<MAX_SIZE>`](dsp/DelayLine.h)** — fixed-size circular delay buffer with linear-interpolated fractional reads.
+- **[`TappedDelayLine<MAX_SIZE, NUM_TAPS>`](dsp/TappedDelayLine.h)** — a `DelayLine` read at multiple tap points with independent gains, summed into one output (used in Moorers Reverb below).
+- **[`APF`](dsp/APF.h)** — single-sample first-order allpass filter (Schroeder allpass).
+- **[`DelayingAllPass<MAX_SIZE>`](dsp/DelayingAllPass.h)** — Schroeder allpass filter built around a `DelayLine`, for reverb diffusion.
+- **[`Comb<MAX_SIZE>`](dsp/Comb.h)** — basic feedback comb filter.
+- **[`LPFComb<MAX_SIZE>`](dsp/LPFComb.h)** — comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
+- **[`MoorerReverb`](dsp/MoorerReverb.h)** — James Moorer's early-reflections + parallel-comb/allpass reverb.
+- **[`OnePole`](dsp/OnePole.h)** — one-pole low/high-pass filter.
+- **[`BitCrusher`](dsp/BitCrusher.h)** — sample-rate reduction and bit-depth quantization.
+- **[`SimpleDistortion`](dsp/SimpleDistortion.h)** — simple hard-clip and cubic soft-clip waveshaping distortion.
+- **[`PitchShifter<MAX_SIZE>`](dsp/PitchShifter.h)** — delay-line based pitch shifter using two crossfaded, triangular-windowed read taps.
 
 ### utilities/
 
-- **`Utilities.h`** — misc helpers (pretty empty at the moment)
+- **[`Utilities.h`](utilities/Utilities.h)** — misc helpers (pretty empty at the moment)
 
 ## Notes
 
