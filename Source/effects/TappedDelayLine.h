@@ -3,7 +3,7 @@
 #include "DelayLine.h"
 #include <array>
 
-namespace sknight::dsp
+namespace sknight::effects
 {
     // TappedDelayLine<MAX_SIZE, NUM_TAPS>: a DelayLine read at multiple tap points with independent gains,
     // summed into one output (used in MoorerReverb).
@@ -13,9 +13,6 @@ namespace sknight::dsp
     class TappedDelayLine final
     {
     public:
-        TappedDelayLine() {}
-        ~TappedDelayLine() {}
-
         /** initialize tappeddelayline */
         void Init()
         {
@@ -57,4 +54,4 @@ namespace sknight::dsp
         std::array<float, NUM_TAPS> delay_times_;
         std::array<float, NUM_TAPS> gain_amounts_;
     };
-} // namespace sknight::dsp
+} // namespace sknight::effects

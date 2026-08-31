@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace sknight::dsp
+namespace sknight::effects
 {
   // APF: single-sample first-order allpass filter (Schroeder allpass).
   //
@@ -10,9 +10,6 @@ namespace sknight::dsp
   class APF final
   {
   public:
-    APF() {}
-    ~APF() {}
-
     /** initialize apf */
     void Init()
     {
@@ -42,4 +39,4 @@ namespace sknight::dsp
     float last_sample_ = 0.0f;
     float gain_ = 0.7f;
   };
-} // namespace sknight::dsp
+} // namespace sknight::effects

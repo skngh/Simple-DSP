@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cmath>
 
-namespace sknight::dsp
+namespace sknight::effects
 {
     // BitCrusher: sample-rate reduction and bit-depth quantization.
     //
@@ -12,9 +12,6 @@ namespace sknight::dsp
     class BitCrusher final
     {
     public:
-        BitCrusher() {}
-        ~BitCrusher() {}
-
         /** initialize bitcrusher */
         void Init(float sample_rate)
         {
@@ -80,4 +77,4 @@ namespace sknight::dsp
         float phase_step_ = 1.0f;
         float phase_ = 0.0f;
     };
-} // namespace sknight::dsp
+} // namespace sknight::effects

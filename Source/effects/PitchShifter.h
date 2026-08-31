@@ -3,7 +3,7 @@
 #include <cmath>
 #include "OnePole.h"
 
-namespace sknight::dsp
+namespace sknight::effects
 {
     // PitchShifter<MAX_SIZE>: delay-line based pitch shifter using two crossfaded, triangular-windowed read taps.
     //
@@ -12,9 +12,6 @@ namespace sknight::dsp
     class PitchShifter final
     {
     public:
-        PitchShifter() {}
-        ~PitchShifter() {}
-
         /** initialize pitchshifter */
         void Init() { Reset(); }
 
@@ -96,4 +93,4 @@ namespace sknight::dsp
         float delay_line_[MAX_SIZE];
         int write_ptr_ = 0;
     };
-} // namespace sknight::dsp
+} // namespace sknight::effects

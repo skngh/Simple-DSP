@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-namespace sknight::dsp
+namespace sknight::effects
 {
     // DelayLine<MAX_SIZE>: fixed-size circular delay buffer with linear-interpolated fractional reads.
     //
@@ -11,9 +11,6 @@ namespace sknight::dsp
     class DelayLine final
     {
     public:
-        DelayLine() {}
-        ~DelayLine() {}
-
         /** initialize delayline */
         void Init()
         {
@@ -88,4 +85,4 @@ namespace sknight::dsp
         float delay_time_ = 1.0f;
         float buffer_[MAX_SIZE];
     };
-} // namespace sknight::dsp
+} // namespace sknight::effects

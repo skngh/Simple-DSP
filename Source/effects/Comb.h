@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "DelayLine.h"
 
-namespace sknight::dsp
+namespace sknight::effects
 {
   // Comb<MAX_SIZE>: basic feedback comb filter.
   //
@@ -13,9 +13,6 @@ namespace sknight::dsp
   class Comb final
   {
   public:
-    Comb() {}
-    ~Comb() {}
-
     /** initialize comb */
     void Init() { Reset(); }
 
@@ -43,4 +40,4 @@ namespace sknight::dsp
     float fb_ = 0.0f;
     DelayLine<MAX_SIZE> delay_line_;
   };
-} // namespace sknight::dsp
+} // namespace sknight::effects

@@ -6,7 +6,7 @@
 #include "DelayingAllPass.h"
 #include "TappedDelayLine.h"
 
-namespace sknight::dsp
+namespace sknight::effects
 {
     // MoorerReverb: James Moorer's early-reflections + parallel-comb/allpass reverb.
     //   I used this pdf I found online for the values https://freeverb3-vst.sourceforge.io/doc/Moorer_Reverb.PDF
@@ -18,9 +18,6 @@ namespace sknight::dsp
     class MoorerReverb final
     {
     public:
-        MoorerReverb() {}
-        ~MoorerReverb() {}
-
         /** initialize moorerreverb */
         void Init(float sample_rate)
         {
@@ -176,4 +173,4 @@ namespace sknight::dsp
         float combs_scale_ = 1.0f;
         float sample_rate_ = 48000.0f;
     };
-} // namespace sknight::dsp
+} // namespace sknight::effects

@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace sknight::dsp
+namespace sknight::effects
 {
 
     inline constexpr float PI = 3.14159274f;
@@ -19,9 +19,6 @@ namespace sknight::dsp
             LowPass,
             HighPass
         };
-
-        OnePole() {}
-        ~OnePole() {}
 
         /** initialize onepole */
         void Init(float sample_rate)
@@ -62,4 +59,4 @@ namespace sknight::dsp
         float last_sample_ = 0.0f;
         FilterType type_ = FilterType::LowPass;
     };
-} // namespace sknight::dsp
+} // namespace sknight::effects

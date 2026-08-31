@@ -1,6 +1,6 @@
 #pragma once
 
-namespace sknight::dsp
+namespace sknight::effects
 {
     // SimpleDistortion: simple hard-clip and cubic soft-clip waveshaping distortion.
     //
@@ -14,9 +14,6 @@ namespace sknight::dsp
             HardClip,
             SoftClip
         };
-
-        SimpleDistortion() {}
-        ~SimpleDistortion() {}
 
         /** initialize distortion */
         void Init()
@@ -60,4 +57,4 @@ namespace sknight::dsp
         ClippingType clipping_type_ = ClippingType::HardClip;
         float gain_ = 1.0f;
     };
-} // namespace sknight::dsp
+} // namespace sknight::effects

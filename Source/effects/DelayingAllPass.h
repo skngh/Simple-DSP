@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "DelayLine.h"
 
-namespace sknight::dsp
+namespace sknight::effects
 {
   // DelayingAllPass<MAX_SIZE>: Schroeder allpass filter built around a DelayLine, for reverb diffusion.
   //
@@ -13,9 +13,6 @@ namespace sknight::dsp
   class DelayingAllPass final
   {
   public:
-    DelayingAllPass() {}
-    ~DelayingAllPass() {}
-
     /** initialize delayingallpass */
     void Init() { Reset(); }
 
@@ -44,4 +41,4 @@ namespace sknight::dsp
     DelayLine<MAX_SIZE> delay_line_;
     float gain_ = 0.7f;
   };
-} // namespace sknight::dsp
+} // namespace sknight::effects

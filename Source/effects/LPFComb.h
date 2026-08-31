@@ -3,7 +3,7 @@
 #include <algorithm>
 #include "DelayLine.h"
 
-namespace sknight::dsp
+namespace sknight::effects
 {
     // LPFComb<MAX_SIZE>: comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
     //
@@ -14,9 +14,6 @@ namespace sknight::dsp
     class LPFComb final
     {
     public:
-        LPFComb() {}
-        ~LPFComb() {}
-
         /** initialize lpfcomb */
         void Init() { Reset(); }
 
@@ -68,4 +65,4 @@ namespace sknight::dsp
         float damping_ = 0.0f;
         float g2_coeff = 0.0f;
     };
-} // namespace sknight::dsp
+} // namespace sknight::effects
