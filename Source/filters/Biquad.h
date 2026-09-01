@@ -75,7 +75,7 @@ namespace sknight::filters
     private:
         void SetCoeffs()
         {
-            q_ = std::max(q_, 0.01f);
+            q_ = (std::max)(q_, 0.01f);
 
             float omega = 2.0f * utilities::kPi * (freq_ / sample_rate_);
 
