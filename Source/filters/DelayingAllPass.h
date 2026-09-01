@@ -1,7 +1,7 @@
 #pragma once
 
 #include <algorithm>
-#include "Source/effects/DelayLine.h"
+#include "../effects/DelayLine.h"
 
 namespace sknight::filters
 {

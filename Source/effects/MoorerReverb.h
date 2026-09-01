@@ -2,8 +2,8 @@
 
 #include <array>
 #include <cmath>
-#include "Source/filters/LPFComb.h"
-#include "Source/filters/DelayingAllPass.h"
+#include "../filters/LPFComb.h"
+#include "../filters/DelayingAllPass.h"
 #include "TappedDelayLine.h"
 
 namespace sknight::effects

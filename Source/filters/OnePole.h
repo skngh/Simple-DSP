@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cmath>
-#include "Source/utilities/Utilities.h"
+#include "../utilities/Utilities.h"
 
 namespace sknight::filters
 {

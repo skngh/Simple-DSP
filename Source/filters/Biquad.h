@@ -2,7 +2,7 @@
 
 #include <cmath>
 #include <algorithm>
-#include "Source/utilities/Utilities.h"
+#include "../utilities/Utilities.h"
 
 namespace sknight::filters
 {
