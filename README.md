@@ -55,7 +55,7 @@ filter.Reset();
 
 ### utilities/
 
-- **[`Utilities.h`](utilities/Utilities.h)** — misc helpers (pretty empty at the moment)
+- **[`Utilities.h`](utilities/Utilities.h)** — misc helpers (pretty empty at the moment).
 
 ## Notes
 
