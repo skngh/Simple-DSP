@@ -7,6 +7,7 @@ namespace sknight::utilities
 
     // Utilities: misc helpers used across the dsp classes.
 
+    inline constexpr float kPi = 3.14159274f;
     /**
      * calls on_change and updates last_value if value has moved past threshold
      * @param threshold minimum change required to trigger on_change

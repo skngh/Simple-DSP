@@ -1,9 +1,9 @@
 #pragma once
 
 #include <algorithm>
-#include "DelayLine.h"
+#include "Source/effects/DelayLine.h"
 
-namespace sknight::effects
+namespace sknight::filters
 {
     // LPFComb<MAX_SIZE>: comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
     //
@@ -60,9 +60,9 @@ namespace sknight::effects
 
     private:
         float fb_ = 0.0f;
-        DelayLine<MAX_SIZE> delay_line_;
+        effects::DelayLine<MAX_SIZE> delay_line_;
         float last_sample_ = 0.0f;
         float damping_ = 0.0f;
         float g2_coeff = 0.0f;
     };
-} // namespace sknight::effects
+} // namespace sknight::filters

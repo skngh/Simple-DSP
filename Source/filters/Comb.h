@@ -1,9 +1,9 @@
 #pragma once
 
 #include <algorithm>
-#include "DelayLine.h"
+#include "Source/effects/DelayLine.h"
 
-namespace sknight::effects
+namespace sknight::filters
 {
   // Comb<MAX_SIZE>: basic feedback comb filter.
   //
@@ -38,6 +38,6 @@ namespace sknight::effects
 
   private:
     float fb_ = 0.0f;
-    DelayLine<MAX_SIZE> delay_line_;
+    effects::DelayLine<MAX_SIZE> delay_line_;
   };
-} // namespace sknight::effects
+} // namespace sknight::filters

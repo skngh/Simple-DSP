@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace sknight::effects
+namespace sknight::filters
 {
   // APF: single-sample first-order allpass filter (Schroeder allpass).
   //
@@ -39,4 +39,4 @@ namespace sknight::effects
     float last_sample_ = 0.0f;
     float gain_ = 0.7f;
   };
-} // namespace sknight::effects
+} // namespace sknight::filters

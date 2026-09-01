@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cmath>
-#include "OnePole.h"
+#include "Source/utilities/Utilities.h"
 
 namespace sknight::effects
 {
@@ -56,8 +56,8 @@ namespace sknight::effects
             float tri_a = phase_ > 0.5f ? (1.0f - phase_) : phase_;
             float tri_b = phase_b > 0.5f ? (1.0f - phase_b) : phase_b;
 
-            float gain_a = std::sin(tri_a * PI);
-            float gain_b = std::sin(tri_b * PI);
+            float gain_a = std::sin(tri_a * utilities::kPi);
+            float gain_b = std::sin(tri_b * utilities::kPi);
 
             float sample = sample_a * gain_a + sample_b * gain_b;
 

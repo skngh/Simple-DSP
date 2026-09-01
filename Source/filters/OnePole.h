@@ -1,12 +1,10 @@
 #pragma once
 
 #include <cmath>
+#include "Source/utilities/Utilities.h"
 
-namespace sknight::effects
+namespace sknight::filters
 {
-
-    inline constexpr float PI = 3.14159274f;
-
     // OnePole: one-pole low/high-pass filter.
     //
     //   SetCutoff(frequency)
@@ -47,7 +45,7 @@ namespace sknight::effects
          */
         void SetCutoff(const float frequency)
         {
-            coeff_ = std::exp(-2.0f * PI * frequency / sample_rate_);
+            coeff_ = std::exp(-2.0f * utilities::kPi * frequency / sample_rate_);
         }
 
         /** set filter type */
@@ -59,4 +57,4 @@ namespace sknight::effects
         float last_sample_ = 0.0f;
         FilterType type_ = FilterType::LowPass;
     };
-} // namespace sknight::effects
+} // namespace sknight::filters

@@ -1,9 +1,9 @@
 #pragma once
 
 #include <algorithm>
-#include "DelayLine.h"
+#include "Source/effects/DelayLine.h"
 
-namespace sknight::effects
+namespace sknight::filters
 {
   // DelayingAllPass<MAX_SIZE>: Schroeder allpass filter built around a DelayLine, for reverb diffusion.
   //
@@ -38,7 +38,7 @@ namespace sknight::effects
     void SetGain(const float gain) { gain_ = std::clamp(gain, -0.999f, 0.999f); }
 
   private:
-    DelayLine<MAX_SIZE> delay_line_;
+    effects::DelayLine<MAX_SIZE> delay_line_;
     float gain_ = 0.7f;
   };
-} // namespace sknight::effects
+} // namespace sknight::filters

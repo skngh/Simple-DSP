@@ -8,7 +8,9 @@ Most of the filters and reverb's algorithm I adapted from Will Pirkle's _Designi
 
 ## Layout
 
+- [`filters/`](/Source/filters/) — filters (`sknight::filters` namespace)
 - [`effects/`](/Source/effects/) — dsp building blocks + some full effects (`sknight::effects` namespace)
+- [`generators/`](/Source/generators/) — signal generators (`sknight::generators` namespace)
 - [`utilities/`](/Source/utilities/) — small helpers (`sknight::utilities` namespace)
 
 ## Usage pattern
@@ -16,7 +18,7 @@ Most of the filters and reverb's algorithm I adapted from Will Pirkle's _Designi
 Every class follows the same lifecycle:
 
 ```cpp
-sknight::effects::OnePole filter;
+sknight::filters::OnePole filter;
 filter.Init(sample_rate);     // one time setup
 filter.SetCutoff(1000.0f);
 
@@ -29,19 +31,27 @@ filter.Reset();
 
 ## Classes
 
+### filters/
+
+- **[`OnePole`](filters/OnePole.h)** — one-pole low/high-pass filter.
+- **[`Biquad`](filters/Biquad.h)** — biquad bandpass filter.
+- **[`APF`](filters/APF.h)** — single-sample first-order allpass filter (Schroeder allpass).
+- **[`DelayingAllPass<MAX_SIZE>`](filters/DelayingAllPass.h)** — Schroeder allpass filter built around a `DelayLine`, for reverb diffusion.
+- **[`Comb<MAX_SIZE>`](filters/Comb.h)** — basic feedback comb filter.
+- **[`LPFComb<MAX_SIZE>`](filters/LPFComb.h)** — comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
+
 ### effects/
 
 - **[`DelayLine<MAX_SIZE>`](effects/DelayLine.h)** — fixed-size circular delay buffer with linear-interpolated fractional reads.
 - **[`TappedDelayLine<MAX_SIZE, NUM_TAPS>`](effects/TappedDelayLine.h)** — a `DelayLine` read at multiple tap points with independent gains, summed into one output (used in Moorers Reverb below).
-- **[`APF`](effects/APF.h)** — single-sample first-order allpass filter (Schroeder allpass).
-- **[`DelayingAllPass<MAX_SIZE>`](effects/DelayingAllPass.h)** — Schroeder allpass filter built around a `DelayLine`, for reverb diffusion.
-- **[`Comb<MAX_SIZE>`](effects/Comb.h)** — basic feedback comb filter.
-- **[`LPFComb<MAX_SIZE>`](effects/LPFComb.h)** — comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
 - **[`MoorerReverb`](effects/MoorerReverb.h)** — James Moorer's early-reflections + parallel-comb/allpass reverb.
-- **[`OnePole`](effects/OnePole.h)** — one-pole low/high-pass filter.
 - **[`BitCrusher`](effects/BitCrusher.h)** — sample-rate reduction and bit-depth quantization.
 - **[`SimpleDistortion`](effects/SimpleDistortion.h)** — simple hard-clip and cubic soft-clip waveshaping distortion.
 - **[`PitchShifter<MAX_SIZE>`](effects/PitchShifter.h)** — delay-line based pitch shifter using two crossfaded, triangular-windowed read taps.
+
+### generators/
+
+- **[`WhiteNoise`](generators/WhiteNoise.h)** — fast white noise generator.
 
 ### utilities/
 

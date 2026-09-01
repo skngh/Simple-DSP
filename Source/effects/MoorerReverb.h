@@ -2,8 +2,8 @@
 
 #include <array>
 #include <cmath>
-#include "LPFComb.h"
-#include "DelayingAllPass.h"
+#include "Source/filters/LPFComb.h"
+#include "Source/filters/DelayingAllPass.h"
 #include "TappedDelayLine.h"
 
 namespace sknight::effects
@@ -163,8 +163,8 @@ namespace sknight::effects
             return v;
         }
 
-        DelayingAllPass<3400> apf_;
-        std::array<LPFComb<3000>, 6> combs_ = {};
+        filters::DelayingAllPass<3400> apf_;
+        std::array<filters::LPFComb<3000>, 6> combs_ = {};
         TappedDelayLine<4000, 18> er_;
 
         float er_gain_ = 1.0f;
