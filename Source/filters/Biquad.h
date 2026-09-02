@@ -72,6 +72,26 @@ namespace sknight::filters
             SetCoeffs();
         }
 
+        /** set freq and T60 together. avoid extra coeff calling cost
+         * @param freq center freq in hz
+         * @param time time in seconds till 60dB
+         */
+        void SetParamsT60(float freq, float time)
+        {
+            freq_ = freq;
+            q_ = time * utilities::kPi * freq_ / 6.91f;
+            SetCoeffs();
+        }
+
+        /** set decay time using T60 (amount of time until it hits 60dB)
+         * @param time time in seconds
+         */
+        void SetT60(float time)
+        {
+            q_ = time * utilities::kPi * freq_ / 6.91f;
+            SetCoeffs();
+        }
+
     private:
         void SetCoeffs()
         {
