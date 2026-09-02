@@ -52,6 +52,7 @@ filter.Reset();
 ### generators/
 
 - **[`WhiteNoise`](generators/WhiteNoise.h)** — fast white noise generator.
+- **[`Oscillator`](generators/Oscillator.h)** — sin/triangle/square/sawtooth wave oscillator.
 
 ### utilities/
 

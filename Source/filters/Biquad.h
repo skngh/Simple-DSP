@@ -108,7 +108,7 @@ namespace sknight::filters
             float norm = 1.0f / a0;
 
             b0_ = alpha * norm;
-            b1_ = 0.0f * norm;
+            b1_ = 0.0f;
             b2_ = -alpha * norm;
             a1_ = -2.0f * cos_omega * norm;
             a2_ = (1.0f - alpha) * norm;
