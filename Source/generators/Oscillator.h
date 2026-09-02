@@ -36,6 +36,7 @@ namespace sknight::generators
         [[nodiscard]] float Process() noexcept
         {
             float out = 0.0f;
+            float gb = (2.0f * phase_) - 1.0f;
 
             switch (wave_type_)
             {
@@ -43,12 +44,14 @@ namespace sknight::generators
                 out = std::sinf(phase_ * 2.0f * utilities::kPi);
                 break;
             case WaveType::SAW:
-                out = (phase_ * 2.0f) - 1.0f;
+                out = gb;
+                break;
             case WaveType::SQUARE:
                 out = phase_ > 0.5f ? 1.0f : -1.0f;
+                break;
             case WaveType::TRI:
-                float gb = (2.0f * phase_) - 1.0f;
                 out = 2.0f * (fabsf(gb) - 0.5f);
+                break;
             }
 
             phase_ += phase_inc_;
