@@ -52,7 +52,7 @@ namespace sknight::filters
             SetCoeffs();
         }
 
-        /** set cutoff freq
+        /** set center freq
          * @param freq in hz
          */
         void SetFreq(const float freq)
@@ -62,7 +62,7 @@ namespace sknight::filters
         }
 
         /** set freq and q together. avoid extra coeff calling cost
-         * @param freq in hz
+         * @param freq center freq in hz
          * @param q clamped at min 0.01f. range typically 0.1-100
          */
         void SetParams(float freq, float q)
