@@ -33,30 +33,30 @@ filter.Reset();
 
 ### filters/
 
-- **[`OnePole`](filters/OnePole.h)** — one-pole low/high-pass filter.
-- **[`Biquad`](filters/Biquad.h)** — biquad bandpass filter.
-- **[`APF`](filters/APF.h)** — single-sample first-order allpass filter (Schroeder allpass).
-- **[`DelayingAllPass<MAX_SIZE>`](filters/DelayingAllPass.h)** — Schroeder allpass filter built around a `DelayLine`, for reverb diffusion.
-- **[`Comb<MAX_SIZE>`](filters/Comb.h)** — basic feedback comb filter.
-- **[`LPFComb<MAX_SIZE>`](filters/LPFComb.h)** — comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
+- **[`OnePole`](Source/filters/OnePole.h)** — one-pole low/high-pass filter.
+- **[`Biquad`](Source/filters/Biquad.h)** — biquad bandpass filter.
+- **[`APF`](Source/filters/APF.h)** — single-sample first-order allpass filter (Schroeder allpass).
+- **[`DelayingAllPass<MAX_SIZE>`](Source/filters/DelayingAllPass.h)** — Schroeder allpass filter built around a `DelayLine`, for reverb diffusion.
+- **[`Comb<MAX_SIZE>`](Source/filters/Comb.h)** — basic feedback comb filter.
+- **[`LPFComb<MAX_SIZE>`](Source/filters/LPFComb.h)** — comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
 
 ### effects/
 
-- **[`DelayLine<MAX_SIZE>`](effects/DelayLine.h)** — fixed-size circular delay buffer with linear-interpolated fractional reads.
-- **[`TappedDelayLine<MAX_SIZE, NUM_TAPS>`](effects/TappedDelayLine.h)** — a `DelayLine` read at multiple tap points with independent gains, summed into one output (used in Moorers Reverb below).
-- **[`MoorerReverb`](effects/MoorerReverb.h)** — James Moorer's early-reflections + parallel-comb/allpass reverb.
-- **[`BitCrusher`](effects/BitCrusher.h)** — sample-rate reduction and bit-depth quantization.
-- **[`SimpleDistortion`](effects/SimpleDistortion.h)** — simple hard-clip and cubic soft-clip waveshaping distortion.
-- **[`PitchShifter<MAX_SIZE>`](effects/PitchShifter.h)** — delay-line based pitch shifter using two crossfaded, triangular-windowed read taps.
+- **[`DelayLine<MAX_SIZE>`](Source/effects/DelayLine.h)** — fixed-size circular delay buffer with linear-interpolated fractional reads.
+- **[`TappedDelayLine<MAX_SIZE, NUM_TAPS>`](Source/effects/TappedDelayLine.h)** — a `DelayLine` read at multiple tap points with independent gains, summed into one output (used in Moorers Reverb below).
+- **[`MoorerReverb`](Source/effects/MoorerReverb.h)** — James Moorer's early-reflections + parallel-comb/allpass reverb.
+- **[`BitCrusher`](Source/effects/BitCrusher.h)** — sample-rate reduction and bit-depth quantization.
+- **[`SimpleDistortion`](Source/effects/SimpleDistortion.h)** — simple hard-clip and cubic soft-clip waveshaping distortion.
+- **[`PitchShifter<MAX_SIZE>`](Source/effects/PitchShifter.h)** — delay-line based pitch shifter using two crossfaded, triangular-windowed read taps.
 
 ### generators/
 
-- **[`WhiteNoise`](generators/WhiteNoise.h)** — fast white noise generator.
-- **[`Oscillator`](generators/Oscillator.h)** — sin/triangle/square/sawtooth wave oscillator.
+- **[`WhiteNoise`](Source/generators/WhiteNoise.h)** — fast white noise generator.
+- **[`Oscillator`](Source/generators/Oscillator.h)** — sin/triangle/square/sawtooth wave oscillator.
 
 ### utilities/
 
-- **[`Utilities.h`](utilities/Utilities.h)** — misc helpers (pretty empty at the moment).
+- **[`Utilities.h`](Source/utilities/Utilities.h)** — misc helpers (pretty empty at the moment).
 
 ## Notes
 
