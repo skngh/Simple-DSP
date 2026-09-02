@@ -24,12 +24,13 @@ namespace sknight::generators
         {
             sample_rate_ = sample_rate;
             sr_rec_ = 1.0f / sample_rate_;
+            Reset();
         }
 
         void Reset()
         {
             phase_ = 0.0f;
-            phase_inc_ = 0.0f;
+            CalcPhaseInc();
         }
 
         [[nodiscard]] float Process() noexcept
@@ -39,14 +40,15 @@ namespace sknight::generators
             switch (wave_type_)
             {
             case WaveType::SIN:
-                out = std::sin(phase_ * 2.0f * utilities::kPi);
+                out = std::sinf(phase_ * 2.0f * utilities::kPi);
                 break;
             case WaveType::SAW:
                 out = (phase_ * 2.0f) - 1.0f;
             case WaveType::SQUARE:
-                out = phase_ > 0.5f ? 1.0f : 0.0f;
+                out = phase_ > 0.5f ? 1.0f : -1.0f;
             case WaveType::TRI:
-                out = phase_ > 0.5f ? 1.0f - phase_ : phase_;
+                float gb = (2.0f * phase_) - 1.0f;
+                out = 2.0f * (fabsf(gb) - 0.5f);
             }
 
             phase_ += phase_inc_;
