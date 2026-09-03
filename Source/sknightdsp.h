@@ -3,6 +3,8 @@
 
 #pragma once
 
+/** utilities */
+#include "utilities/ADSR.h"
 #include "utilities/Utilities.h"
 
 /** filters */
