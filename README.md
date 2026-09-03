@@ -56,6 +56,7 @@ filter.Reset();
 
 ### utilities/
 
+- **[`ADSR.h`](Source/utilities/ADSR.h)** — simple adsr enveloper. release is automatically triggered after decay time.
 - **[`Utilities.h`](Source/utilities/Utilities.h)** — misc helpers (pretty empty at the moment).
 
 ## Notes
