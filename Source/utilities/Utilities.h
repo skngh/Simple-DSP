@@ -13,7 +13,7 @@ namespace sknight::utilities
      * @param threshold minimum change required to trigger on_change
      */
     template <typename T, typename Fn>
-    void ValueChanged(T value, T &last_value, Fn &&on_change, float threshold = 0.001f)
+    void ValueChanged(T value, T &last_value, Fn &&on_change, const float threshold = 0.001f)
     {
         if (fabsf(static_cast<float>(value - last_value)) > threshold)
         {

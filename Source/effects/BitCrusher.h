@@ -13,7 +13,7 @@ namespace sknight::effects
     {
     public:
         /** initialize bitcrusher */
-        void Init(float sample_rate)
+        void Init(const float sample_rate)
         {
             ql_ = 0.0f;
             sample_rate_ = sample_rate;

@@ -23,8 +23,8 @@ namespace sknight::filters
     /** process apf */
     [[nodiscard]] float Process(const float in) noexcept
     {
-      float delayed = last_sample_;
-      float delay_input = in + gain_ * delayed; // w(n)
+      const float delayed = last_sample_;
+      const float delay_input = in + gain_ * delayed; // w(n)
       last_sample_ = delay_input;
       return (-gain_ * delay_input) + delayed;
     }

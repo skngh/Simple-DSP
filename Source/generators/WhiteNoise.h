@@ -9,18 +9,18 @@ namespace sknight::generators
     class WhiteNoise final
     {
     public:
-        void Init() { Reset(); };
+        void Init() { Reset(); }
 
         void Reset()
         {
             x1_ = 0x67452301;
             x2_ = 0xefcdab89;
-        };
+        }
 
-        [[nodiscard]] float Process(const float in)
+        [[nodiscard]] float Process()
         {
             x1_ ^= x2_;
-            float out = x2_ * kScale - 1.0f;
+            const float out = static_cast<float>(x2_) * kScale - 1.0f;
             x2_ += x1_;
             return out;
         }

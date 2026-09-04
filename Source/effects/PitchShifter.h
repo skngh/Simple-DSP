@@ -50,16 +50,16 @@ namespace sknight::effects
             if (read_b < 0.0f)
                 read_b += MAX_SIZE;
 
-            float sample_a = ReadInterpolate(read_a);
-            float sample_b = ReadInterpolate(read_b);
+            const float sample_a = ReadInterpolate(read_a);
+            const float sample_b = ReadInterpolate(read_b);
 
-            float tri_a = phase_ > 0.5f ? (1.0f - phase_) : phase_;
-            float tri_b = phase_b > 0.5f ? (1.0f - phase_b) : phase_b;
+            const float tri_a = phase_ > 0.5f ? (1.0f - phase_) : phase_;
+            const float tri_b = phase_b > 0.5f ? (1.0f - phase_b) : phase_b;
 
-            float gain_a = std::sin(tri_a * utilities::kPi);
-            float gain_b = std::sin(tri_b * utilities::kPi);
+            const float gain_a = std::sin(tri_a * utilities::kPi);
+            const float gain_b = std::sin(tri_b * utilities::kPi);
 
-            float sample = sample_a * gain_a + sample_b * gain_b;
+            const float sample = sample_a * gain_a + sample_b * gain_b;
 
             return sample;
         }
@@ -75,7 +75,7 @@ namespace sknight::effects
         }
 
     private:
-        inline float ReadInterpolate(float read_ptr) noexcept
+        float ReadInterpolate(const float read_ptr) noexcept
         {
             int read_idx_a = static_cast<int>(read_ptr);
             float frac = read_ptr - read_idx_a;

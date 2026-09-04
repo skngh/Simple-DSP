@@ -22,7 +22,7 @@ namespace sknight::filters
     /** process comb */
     [[nodiscard]] float Process(const float in) noexcept
     {
-      float out = delay_line_.Read();
+        const float out = delay_line_.Read();
       delay_line_.Write(in + fb_ * out);
       return out;
     }

@@ -27,9 +27,8 @@ namespace sknight::utilities
         /** reset adsr */
         void Reset()
         {
-            a_ = 0.0f;
-            d_ = 0.0f;
-            r_ = 0.0f;
+            env_val_ = 0.0f;
+            decay_counter_ = 0.0f;
             stage_ = Stage::Idle;
             has_triggered_ = false;
         }
@@ -38,36 +37,41 @@ namespace sknight::utilities
         [[nodiscard]] float Process() noexcept
         {
             if (!has_triggered_) return 0.0f;
-            float out = 0.0f;
 
             switch (stage_)
             {
                 case Stage::Attack:
-                    CalcEnvelope (a_, 1.0f, attack_);
-                    out = a_;
-                    if (a_ >= 1.0f) stage_ = Stage::Decay;
+                    Lerp (env_val_, 0.0f, 1.0f, attack_);
+                    if (env_val_ >= 1.0f)
+                    {
+                        env_val_ = 1.0f;
+                        stage_ = Stage::Decay;
+                    }
                     break;
                 case Stage::Decay:
-                    CalcEnvelope (d_, sustain_, decay_);
-                    out = d_;
-                    if (d_ >= sustain_) stage_ = Stage::Release;
+                    Lerp (env_val_, 1.0f, sustain_, decay_);
+                    Lerp(decay_counter_, 0.0f, 1.0f, decay_);
+                    if (env_val_ <= sustain_ && decay_counter_ >= 1.0f)
+                    {
+                        env_val_ = sustain_;
+                        stage_ = Stage::Release;
+                    }
                     break;
                 case Stage::Release:
-                    CalcEnvelope (r_, 0.0f, release_);
-                    out = r_;
-                    if (r_ <= 0.0f)
+                    Lerp (env_val_, sustain_, 0.0f, release_);
+                    if (env_val_ <= 0.0f)
                     {
+                        env_val_ = 0.0f;
                         has_triggered_ = false;
                         stage_ = Stage::Idle;
-                        out = 0.0f;
                     }
                     break;
                 case Stage::Idle:
-                    out = 0.0f;
+                    env_val_ = 0.0f;
                     break;
             }
 
-            return out;
+            return env_val_;
         }
 
         /** triggers adsr */
@@ -102,9 +106,9 @@ namespace sknight::utilities
          */
         void SetDecay(const float dec) { decay_ = GetCoeff(dec); }
         /** set sustain amount
-         * @param sust in linear scale
+         * @param sust in linear scale. clamped at 1
          */
-        void SetSustain(const float sust) { sustain_ = sust; }
+        void SetSustain(const float sust) { sustain_ = (std::min)(sust, 1.0f); }
         /** set release time
          * @param rel in seconds
          */
@@ -113,14 +117,14 @@ namespace sknight::utilities
         /** returns whether adsr is running or not */
         [[nodiscard]] bool IsGoing() const noexcept { return has_triggered_; }
     private:
-        static void CalcEnvelope(float& val, const float target, const float coeff)
+        static void Lerp(float& val, const float start, const float target, const float coeff)
         {
-            val += coeff * (target - val);
+            val += coeff * (target - start);
         }
 
         [[nodiscard]] float GetCoeff(const float seconds) const
         {
-            return std::exp(-1 / (seconds * sample_rate_));
+            return 1.0f - std::exp(-1 / (seconds * sample_rate_));
         }
         enum class Stage
         {
@@ -138,10 +142,8 @@ namespace sknight::utilities
         float sustain_ = 0.0f; // lin
         float release_ = 0.0f;
 
-        // envelope values
-        float a_ = 0.0f;
-        float d_ = 0.0f;
-        float r_ = 0.0f;
+        float env_val_ = 0.0f;
+        float decay_counter_ = 0.0f; // since decay should happen even is sustain is 1
 
         Stage stage_ = Stage::Idle;
         bool has_triggered_ = false;

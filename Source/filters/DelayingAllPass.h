@@ -22,7 +22,7 @@ namespace sknight::filters
     /** process delayingallpass */
     [[nodiscard]] float Process(const float in) noexcept
     {
-      float delayed = delay_line_.Read();
+      const float delayed = delay_line_.Read();
       float delay_input = in + gain_ * delayed; // w(n)
       delay_line_.Write(delay_input);
       return (-gain_ * delay_input) + delayed;

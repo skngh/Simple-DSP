@@ -36,7 +36,7 @@ namespace sknight::generators
         [[nodiscard]] float Process() noexcept
         {
             float out = 0.0f;
-            float gb = (2.0f * phase_) - 1.0f;
+            const float gb = 2.0f * phase_ - 1.0f;
 
             switch (wave_type_)
             {

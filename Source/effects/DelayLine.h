@@ -38,7 +38,7 @@ namespace sknight::effects
         [[nodiscard]] float Read(const float offset) const noexcept
         {
             CheckDelay(offset);
-            int delay_time_int = static_cast<int>(offset);
+            const int delay_time_int = static_cast<int>(offset);
             float frac = offset - delay_time_int;
             int read_index_a = write_index_ - delay_time_int;
             if (read_index_a < 0)
@@ -76,7 +76,7 @@ namespace sknight::effects
         }
 
     private:
-        void CheckDelay(const float delay) const noexcept
+        static void CheckDelay(const float delay) noexcept
         {
             assert(delay >= 0.0f && delay <= MAX_SIZE - 2.0f);
         }

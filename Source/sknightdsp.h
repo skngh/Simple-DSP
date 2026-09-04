@@ -14,6 +14,7 @@
 #include "filters/DelayingAllPass.h"
 #include "filters/LPFComb.h"
 #include "filters/OnePole.h"
+#include "filters/ModalBank.h"
 
 /** effects */
 #include "effects/BitCrusher.h"
@@ -24,4 +25,5 @@
 #include "effects/TappedDelayLine.h"
 
 /** generators */
+#include "generators/Oscillator.h"
 #include "generators/WhiteNoise.h"

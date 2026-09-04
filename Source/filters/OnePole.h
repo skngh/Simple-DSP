@@ -19,7 +19,7 @@ namespace sknight::filters
         };
 
         /** initialize onepole */
-        void Init(float sample_rate)
+        void Init(const float sample_rate)
         {
             sample_rate_ = sample_rate;
             coeff_ = 0.0f;
@@ -32,7 +32,7 @@ namespace sknight::filters
         /** process onepole */
         [[nodiscard]] float Process(const float in) noexcept
         {
-            float lp = (1.0f - coeff_) * in + coeff_ * last_sample_;
+            const float lp = (1.0f - coeff_) * in + coeff_ * last_sample_;
 
             last_sample_ = lp;
 
@@ -49,7 +49,7 @@ namespace sknight::filters
         }
 
         /** set filter type */
-        void SetType(FilterType type) { type_ = type; }
+        void SetType(const FilterType type) { type_ = type; }
 
     private:
         float sample_rate_ = 48000.0f;

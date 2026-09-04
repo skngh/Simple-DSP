@@ -27,8 +27,8 @@ namespace sknight::filters
         /** process lpfcomb */
         [[nodiscard]] float Process(const float in) noexcept
         {
-            float out = delay_line_.Read();
-            float lpf = out + g2_coeff * last_sample_;
+            const float out = delay_line_.Read();
+            const float lpf = out + g2_coeff * last_sample_;
             delay_line_.Write(in + fb_ * lpf);
 
             last_sample_ = lpf;

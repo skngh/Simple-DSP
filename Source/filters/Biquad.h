@@ -6,7 +6,7 @@
 
 namespace sknight::filters
 {
-    // Biquad bandpass filter with constant 0dB peak gain. I plan on adding other biquad coeff variations to this eventually
+    // Biquad bandpass filter with constant skirt gain. I plan on adding other biquad coeff variations to this eventually
     // SetFreq(freq)
     // SetQ(q)
     // adapted from https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html
@@ -33,7 +33,7 @@ namespace sknight::filters
         /** process biquad */
         [[nodiscard]] float Process(const float in) noexcept
         {
-            float out = b0_ * in + b1_ * x1_ + b2_ * x2_ - a1_ * y1_ - a2_ * y2_;
+            const float out = b0_ * in + b1_ * x1_ + b2_ * x2_ - a1_ * y1_ - a2_ * y2_;
 
             x2_ = x1_;
             x1_ = in;
@@ -65,7 +65,7 @@ namespace sknight::filters
          * @param freq center freq in hz
          * @param q clamped at min 0.01f. range typically 0.1-100
          */
-        void SetParams(float freq, float q)
+        void SetParams (const float freq, const float q)
         {
             freq_ = freq;
             q_ = q;
@@ -76,17 +76,17 @@ namespace sknight::filters
          * @param freq center freq in hz
          * @param time time in seconds till 60dB
          */
-        void SetParamsT60(float freq, float time)
+        void SetParamsT60(const float freq, const float time)
         {
             freq_ = freq;
             q_ = time * utilities::kPi * freq_ / 6.91f;
             SetCoeffs();
         }
 
-        /** set decay time using T60 (amount of time until it hits 60dB)
+        /** set decay time using T60 (amount of time until it hits -60dB)
          * @param time time in seconds
          */
-        void SetT60(float time)
+        void SetT60 (const float time)
         {
             q_ = time * utilities::kPi * freq_ / 6.91f;
             SetCoeffs();
@@ -97,19 +97,19 @@ namespace sknight::filters
         {
             q_ = (std::max)(q_, 0.01f);
 
-            float omega = 2.0f * utilities::kPi * (freq_ / sample_rate_);
+            const float omega = 2.0f * utilities::kPi * (freq_ / sample_rate_);
 
-            float sin_omega = std::sin(omega);
-            float cos_omega = std::cos(omega);
+            const float sin_omega = std::sin(omega);
+            const float cos_omega = std::cos(omega);
 
-            float alpha = sin_omega / (2.0f * q_);
+            const float alpha = sin_omega / (2.0f * q_);
 
-            float a0 = 1.0f + alpha;
-            float norm = 1.0f / a0;
+            const float a0 = 1.0f + alpha;
+            const float norm = 1.0f / a0;
 
-            b0_ = alpha * norm;
+            b0_ = q_ * alpha * norm;
             b1_ = 0.0f;
-            b2_ = -alpha * norm;
+            b2_ = q_ * -alpha * norm;
             a1_ = -2.0f * cos_omega * norm;
             a2_ = (1.0f - alpha) * norm;
         }
