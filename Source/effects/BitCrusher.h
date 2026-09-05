@@ -57,7 +57,7 @@ namespace sknight::effects
         void SetBitDepth(int depth)
         {
             depth = std::clamp(depth, 1, 24);
-            ql_ = 2.0f / (std::pow(2, depth) - 1);
+            ql_ = 2.0f / static_cast<float>(std::pow(2.0f, depth) - 1.0f);
         }
 
         /**
@@ -66,7 +66,7 @@ namespace sknight::effects
          */
         void SetSamplingRate(float target_sr)
         {
-            target_sr = std::min(target_sr, sample_rate_);
+            target_sr = (std::min)(target_sr, sample_rate_);
             phase_step_ = target_sr / sample_rate_;
         }
 
