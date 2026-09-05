@@ -6,6 +6,8 @@ namespace sknight::utilities
 {
 
     // Utilities: misc helpers used across the dsp classes.
+    // ValueChanged:
+    // utilities::ValueChanged(hw.adc.GetFloat(0), last_frequency_, [&](float v) { lpf.SetFreq(v); }, 0.001f);
 
     inline constexpr float kPi = 3.14159274f;
     /**
