@@ -2,7 +2,7 @@
 
 By Sam Knight
 
-A small header-only C++ library of audio DSP building blocks, which I'm somewhat regularly updating. Primarily written for the daisy seed but works
+A small header-only C++ library of audio DSP building blocks, which I'm somewhat regularly updating. Primarily written for the daisy seed but works for any dsp needs.
 
 Most of the filters and reverb's algorithm I adapted from Will Pirkle's _Designing Audio Effect Plug-ins in C++_.
 
@@ -15,7 +15,7 @@ Most of the filters and reverb's algorithm I adapted from Will Pirkle's _Designi
 
 ## Usage pattern
 
-Every class follows the same lifecycle:
+Most every class has the same function calls:
 
 ```cpp
 sknight::filters::OnePole filter;
@@ -39,6 +39,7 @@ filter.Reset();
 - **[`DelayingAllPass<MAX_SIZE>`](Source/filters/DelayingAllPass.h)** — Schroeder allpass filter built around a `DelayLine`, for reverb diffusion.
 - **[`Comb<MAX_SIZE>`](Source/filters/Comb.h)** — basic feedback comb filter.
 - **[`LPFComb<MAX_SIZE>`](Source/filters/LPFComb.h)** — comb filter with a one-pole lowpass in the feedback path, for damped reverb tails.
+- **[`ModalBank`](Source/filters/ModalBank.h)** — a bank of the biquad filters, meant to be used for modal synthesis.
 
 ### effects/
 
@@ -57,7 +58,7 @@ filter.Reset();
 ### utilities/
 
 - **[`ADSR.h`](Source/utilities/ADSR.h)** — simple adsr enveloper. release is automatically triggered after decay time.
-- **[`Utilities.h`](Source/utilities/Utilities.h)** — misc helpers (pretty empty at the moment).
+- **[`Utilities.h`](Source/utilities/Utilities.h)** — misc helpers.
 
 ## Notes
 

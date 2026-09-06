@@ -41,7 +41,9 @@ namespace sknight::utilities
         return 20.0f * std::log10(clamp);
     }
 
-    /** one pole filter */
+    /** one pole filter
+     * @param out needs to be persistent across function calls
+     */
     inline void SmoothingOnePole(float &out, float in, float coeff)
     {
         out += coeff * (in - out);
