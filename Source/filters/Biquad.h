@@ -17,6 +17,7 @@ namespace sknight::filters
         void Init(const float sample_rate)
         {
             sample_rate_ = sample_rate;
+            max_freq_ = sample_rate_ * 0.45f;
             SetCoeffs();
             Reset();
         }
@@ -57,7 +58,7 @@ namespace sknight::filters
          */
         void SetFreq(const float freq)
         {
-            freq_ = (std::min)(freq, sample_rate_ / 2.0f);
+            SetFreqInternal(freq);
             SetCoeffs();
         }
 
@@ -65,9 +66,9 @@ namespace sknight::filters
          * @param freq center freq in hz
          * @param q clamped at min 0.01f. range typically 0.1-100
          */
-        void SetParams (const float freq, const float q)
+        void SetParams(const float freq, const float q)
         {
-            freq_ = freq;
+            SetFreqInternal(freq);
             q_ = q;
             SetCoeffs();
         }
@@ -78,7 +79,7 @@ namespace sknight::filters
          */
         void SetParamsT60(const float freq, const float time)
         {
-            freq_ = freq;
+            SetFreqInternal(freq);
             q_ = time * utilities::kPi * freq_ / 6.91f;
             SetCoeffs();
         }
@@ -86,7 +87,7 @@ namespace sknight::filters
         /** set decay time using T60 (amount of time until it hits -60dB)
          * @param time time in seconds
          */
-        void SetT60 (const float time)
+        void SetT60(const float time)
         {
             q_ = time * utilities::kPi * freq_ / 6.91f;
             SetCoeffs();
@@ -114,9 +115,16 @@ namespace sknight::filters
             a2_ = (1.0f - alpha) * norm;
         }
 
+        void SetFreqInternal(const float freq)
+        {
+            freq_ = (std::clamp)(freq, 20.0f, max_freq_);
+        }
+
         float q_ = 1.0f;
         float freq_ = 1000.0f;
         float sample_rate_ = 48000.0f;
+
+        float max_freq_ = 20000.0f;
 
         float x1_ = 0.0f;
         float x2_ = 0.0f;
