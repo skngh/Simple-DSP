@@ -24,4 +24,27 @@ namespace sknight::utilities
         }
     }
 
+    /** convert from decibels to linear scale
+     * @param db decibels
+     */
+    float DbToLin(const float db)
+    {
+        return std::pow(10.0f, db / 20.0f);
+    }
+
+    /** convert from decibels to linear scale. clamps at 0.0001 for safety
+     * @param lin lin
+     */
+    float LinToDec(const float lin)
+    {
+        float clamp = (std::max)(lin, 0.0001f);
+        return 20.0f * std::log10(clamp);
+    }
+
+    /** one pole filter */
+    inline void SmoothingOnePole(float &out, float in, float coeff)
+    {
+        out += coeff * (in - out);
+    }
+
 } // namespace sknight::utilities
