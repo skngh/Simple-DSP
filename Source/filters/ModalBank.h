@@ -59,11 +59,12 @@ namespace sknight::filters
     private:
         void SetScaleAmount()
         {
-            float sum = 0.0f;
-            for (int i = 0; i < SIZE; ++i)
-                sum += gains_[i];
-            scale_amount_ = 1.0f / sqrt(sum);
-            // scale_amount_ = 1.0f / sqrt(SIZE);
+            // float sum = 0.0f;
+            // for (int i = 0; i < SIZE; ++i)
+            //     sum += gains_[i];
+            // scale_amount_ = 1.0f / sqrt(sum);
+            scale_amount_ = 1.0f / sqrt(SIZE);
+            // scale_amount_ = 1.0f / SIZE;
         }
         float sample_rate_ = 48000.0f;
         float scale_amount_ = 1.0f;

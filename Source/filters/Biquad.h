@@ -57,7 +57,7 @@ namespace sknight::filters
          */
         void SetFreq(const float freq)
         {
-            freq_ = freq;
+            freq_ = (std::min)(freq, sample_rate_ / 2.0f);
             SetCoeffs();
         }
 
