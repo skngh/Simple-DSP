@@ -11,7 +11,7 @@ namespace sknight::filters
         float t60_ = 1.0f;
         float gain_ = 1.0f;
     };
-    template<int SIZE>
+    template <int SIZE>
     class ModalBank final
     {
     public:
@@ -21,6 +21,14 @@ namespace sknight::filters
             for (int i = 0; i < SIZE; ++i)
             {
                 biquad_[i].Init(sample_rate);
+            }
+        }
+
+        void Reset()
+        {
+            for (int i = 0; i < SIZE; ++i)
+            {
+                biquad_[i].Reset();
             }
         }
 
@@ -34,19 +42,20 @@ namespace sknight::filters
             return out;
         }
 
-        void SetParams(const BiquadParams& params, const int index)
+        void SetParams(const BiquadParams &params, const int index)
         {
             biquad_[index].SetParams(params.frequency_, params.q_);
-            gains_[index]  = params.gain_;
+            gains_[index] = params.gain_;
             SetScaleAmount();
         }
 
-        void SetParamsT60(const BiquadParams& params, const int index)
+        void SetParamsT60(const BiquadParams &params, const int index)
         {
             biquad_[index].SetParamsT60(params.frequency_, params.t60_);
             gains_[index] = params.gain_;
             SetScaleAmount();
         }
+
     private:
         void SetScaleAmount()
         {
@@ -58,7 +67,7 @@ namespace sknight::filters
         }
         float sample_rate_ = 48000.0f;
         float scale_amount_ = 1.0f;
-        float gains_[SIZE] = { 1.0f };
+        float gains_[SIZE] = {1.0f};
         Biquad biquad_[SIZE];
     };
-} //namespace sknight::filters
+} // namespace sknight::filters
