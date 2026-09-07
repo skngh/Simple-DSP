@@ -37,49 +37,50 @@ namespace sknight::utilities
         /** process adsr. sends 0 when not triggered. (can check with IsGoing() */
         [[nodiscard]] float Process() noexcept
         {
-            if (!has_triggered_) return 0.0f;
+            if (!has_triggered_)
+                return 0.0f;
 
             switch (stage_)
             {
-                case Stage::Attack:
-                    Lerp (env_val_, 0.0f, 1.0f, attack_);
-                    if (env_val_ >= 1.0f)
-                    {
-                        env_val_ = 1.0f;
-                        stage_ = Stage::Decay;
-                    }
-                    break;
-                case Stage::Decay:
-                    Lerp (env_val_, 1.0f, sustain_, decay_);
-                    Lerp(decay_counter_, 0.0f, 1.0f, decay_);
-                    if (env_val_ <= sustain_ && decay_counter_ >= 1.0f)
-                    {
-                        env_val_ = sustain_;
-                        stage_ = Stage::Release;
-                    }
-                    break;
-                case Stage::Release:
-                    Lerp (env_val_, sustain_, 0.0f, release_);
-                    if (env_val_ <= 0.0f)
-                    {
-                        env_val_ = 0.0f;
-                        has_triggered_ = false;
-                        stage_ = Stage::Idle;
-                    }
-                    break;
-                case Stage::Idle:
+            case Stage::Attack:
+                Lerp(env_val_, 0.0f, 1.0f, attack_);
+                if (env_val_ >= 1.0f)
+                {
+                    env_val_ = 1.0f;
+                    stage_ = Stage::Decay;
+                }
+                break;
+            case Stage::Decay:
+                Lerp(env_val_, 1.0f, sustain_, decay_);
+                Lerp(decay_counter_, 0.0f, 1.0f, decay_);
+                if (env_val_ <= sustain_ && decay_counter_ >= 1.0f)
+                {
+                    env_val_ = sustain_;
+                    stage_ = loop_until_trigger_ ? Stage::Decay : Stage::Release;
+                }
+                break;
+            case Stage::Release:
+                Lerp(env_val_, sustain_, 0.0f, release_);
+                if (env_val_ <= 0.0f)
+                {
                     env_val_ = 0.0f;
-                    break;
+                    has_triggered_ = false;
+                    stage_ = Stage::Idle;
+                }
+                break;
+            case Stage::Idle:
+                env_val_ = 0.0f;
+                break;
             }
 
             return env_val_;
         }
 
         /** triggers adsr */
-        void TriggerEnvelope()
+        void TriggerEnvelope(bool loop_until_trigger = false)
         {
             Reset();
-
+            loop_until_trigger_ = loop_until_trigger;
             stage_ = Stage::Attack;
             has_triggered_ = true;
         }
@@ -96,6 +97,11 @@ namespace sknight::utilities
             decay_ = GetCoeff(dec);
             sustain_ = sust;
             release_ = GetCoeff(rel);
+        }
+
+        void TriggerRelease()
+        {
+            stage_ = Stage::Release;
         }
 
         /** set attack time
@@ -117,8 +123,9 @@ namespace sknight::utilities
 
         /** returns whether adsr is running or not */
         [[nodiscard]] bool IsGoing() const noexcept { return has_triggered_; }
+
     private:
-        static void Lerp(float& val, const float start, const float target, const float coeff)
+        static void Lerp(float &val, const float start, const float target, const float coeff)
         {
             val += coeff * (target - start);
         }
@@ -142,6 +149,8 @@ namespace sknight::utilities
         float decay_ = 0.0f;
         float sustain_ = 0.0f; // lin
         float release_ = 0.0f;
+
+        bool loop_until_trigger_ = false;
 
         float env_val_ = 0.0f;
         float decay_counter_ = 0.0f; // since decay should happen even is sustain is 1
