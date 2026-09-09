@@ -22,6 +22,7 @@ namespace sknight::filters
             {
                 biquad_[i].Init(sample_rate);
             }
+            SetScaleAmount();
         }
 
         void Reset()
@@ -46,14 +47,12 @@ namespace sknight::filters
         {
             biquad_[index].SetParams(params.frequency_, params.q_);
             gains_[index] = params.gain_;
-            SetScaleAmount();
         }
 
         void SetParamsT60(const BiquadParams &params, const int index)
         {
             biquad_[index].SetParamsT60(params.frequency_, params.t60_);
             gains_[index] = params.gain_;
-            SetScaleAmount();
         }
 
     private:
