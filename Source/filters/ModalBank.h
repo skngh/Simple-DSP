@@ -55,6 +55,21 @@ namespace sknight::filters
             gains_[index] = params.gain_;
         }
 
+        void SetFreq(const float freq, const int index)
+        {
+            biquad_[index].SetFreq(freq);
+        }
+
+        void SetQ(const float q, const int index)
+        {
+            biquad_[index].SetQ(q);
+        }
+
+        void SetT60(const float t60, const int index)
+        {
+            biquad_[index].SetT60(t60);
+        }
+
     private:
         void SetScaleAmount()
         {
